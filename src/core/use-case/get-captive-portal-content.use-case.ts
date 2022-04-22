@@ -6,7 +6,7 @@ interface Props { fasQuery : string, iv: string };
 
 export const getCaptivePortalContent =  ({ fasQuery, iv }: Props) => {
 
-    const decrypter = crypto.createDecipheriv("aes-256-cbc", "abcdef", iv);
+    const decrypter = crypto.createDecipheriv("aes-256-cbc", "coucoulesamis", iv);
 
     // decrypt the message
     // set the input encoding
