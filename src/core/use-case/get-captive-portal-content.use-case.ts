@@ -18,7 +18,7 @@ const decrypt = (textBase64, keyBase64, ivBase64) => {
 
 export const getCaptivePortalContent =  ({ fasQuery, iv }: Props) => {
 
-    const key = '6IAVE+56U5t7USZhb+9wCcqrTyJHqAu09j0t6fBngNo=';
+    const key = 'abcdef';
     const ivBuffer = Buffer.from(iv, 'base64').slice(0, 16);
 
     // the message comes from the bytes AFTER the IV - this is what you should decrypt
