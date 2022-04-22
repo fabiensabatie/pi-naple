@@ -6,7 +6,7 @@ interface Props { fasQuery : string, iv: string };
 
 export const getCaptivePortalContent =  ({ fasQuery, iv }: Props) => {
 
-    const decrypter = crypto.createDecipheriv("aes-256-cbc", "coucoulesamis", iv);
+    const decrypter = crypto.createDecipheriv("aes-256-cbc", "12345678123456781234567812345678", iv);
 
     // decrypt the message
     // set the input encoding
@@ -24,7 +24,7 @@ export const getCaptivePortalContent =  ({ fasQuery, iv }: Props) => {
     const hid = fas.match(/hid=\w+/g).pop().replace("hid=", "")
     const gateway = fas.match(/gatewayaddress=([\w\.:])+/g).pop().replace("gatewayaddress=", "")
     const gatewayurl = fas.match(/gatewayurl=([\w\.:%])+/g).pop().replace("gatewayurl=", "")
-    const hash = crypto.createHash('sha256').update(hid + "coucoulesamis").digest('base64');	
+    const hash = crypto.createHash('sha256').update(hid + "12345678123456781234567812345678").digest('base64');	
     console.log(fas, hid, gateway, gatewayurl, hash)
     return `
         <form action="http://${gateway}/opennds_auth/" method="get">
