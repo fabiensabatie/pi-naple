@@ -4,27 +4,31 @@ interface Dependencies {}
 interface Props { fasQuery : string, iv: string };
 
 
+const ENC_KEY = "bf3c199c2470cb477d907b1e0917c17b"; // set random encryption key
+// ENC_KEY and IV can be generated as crypto.randomBytes(32).toString('hex');
+
+
+
+
 export const getCaptivePortalContent =  ({ fasQuery, iv }: Props) => {
 
-    const decrypter = crypto.createDecipheriv("aes-256-cbc", "12345678123456781234567812345678", iv);
-
-    // decrypt the message
-    // set the input encoding
-    // and the output encoding
-    let decryptedMsg = decrypter.update(fasQuery, "hex", "utf8");
-    
-    // stop the decryption using
-    // the final method and set
-    // output encoding to utf8
-    decryptedMsg += decrypter.final("utf8");
-    
-    console.log("Decrypted message: " + decryptedMsg);
-
-    const fas = decryptedMsg;
+    var encrypt = ((val) => {
+        let cipher = crypto.createCipheriv('aes-256-cbc', ENC_KEY, iv);
+        let encrypted = cipher.update(val, 'utf8', 'base64');
+        encrypted += cipher.final('base64');
+        return encrypted;
+      });
+      
+      var decrypt = ((encrypted) => {
+        let decipher = crypto.createDecipheriv('aes-256-cbc', ENC_KEY, iv);
+        let decrypted = decipher.update(encrypted, 'base64', 'utf8');
+        return (decrypted + decipher.final('utf8'));
+      });
+    const fas = decrypt(fasQuery);
     const hid = fas.match(/hid=\w+/g).pop().replace("hid=", "")
     const gateway = fas.match(/gatewayaddress=([\w\.:])+/g).pop().replace("gatewayaddress=", "")
     const gatewayurl = fas.match(/gatewayurl=([\w\.:%])+/g).pop().replace("gatewayurl=", "")
-    const hash = crypto.createHash('sha256').update(hid + "12345678123456781234567812345678").digest('base64');	
+    const hash = crypto.createHash('sha256').update(hid + "bf3c199c2470cb477d907b1e0917c17b").digest('base64');	
     console.log(fas, hid, gateway, gatewayurl, hash)
     return `
         <form action="http://${gateway}/opennds_auth/" method="get">
