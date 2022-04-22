@@ -11,20 +11,13 @@ const ENC_KEY = "bf3c199c2470cb477d907b1e0917c17b"; // set random encryption key
 
 
 export const getCaptivePortalContent =  ({ fasQuery, iv }: Props) => {
-
-    var encrypt = ((val) => {
-        let cipher = crypto.createCipheriv('aes-256-cbc', ENC_KEY, iv);
-        let encrypted = cipher.update(val, 'utf8', 'base64');
-        encrypted += cipher.final('base64');
-        return encrypted;
-      });
-      
+    let fas = Buffer.from(fasQuery, 'base64').toString('utf8');
       var decrypt = ((encrypted) => {
         let decipher = crypto.createDecipheriv('aes-256-cbc', ENC_KEY, iv);
         let decrypted = decipher.update(encrypted, 'base64', 'utf8');
         return (decrypted + decipher.final('utf8'));
       });
-    const fas = decrypt(fasQuery);
+    fas = decrypt(fas);
     const hid = fas.match(/hid=\w+/g).pop().replace("hid=", "")
     const gateway = fas.match(/gatewayaddress=([\w\.:])+/g).pop().replace("gatewayaddress=", "")
     const gatewayurl = fas.match(/gatewayurl=([\w\.:%])+/g).pop().replace("gatewayurl=", "")
