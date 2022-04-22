@@ -5,6 +5,7 @@ import { getCaptivePortalContent } from "../../core/use-case/get-captive-portal-
 
 export const OpenNDSController = (request: Request, response: Response) => {
     // if (!request.query.fas) return response.send("Coucpu")
+    console.log("OpenNDSController", request.query)
     if (isAuthenticatedRequest(request.query.redir as string, request.query.tok as string))
         return response.redirect(getRedirectUrl(request.query.redir as string, request.query.tok as string))
     return response.send(getCaptivePortalContent({ fasQuery: request.query.fas as string }));
