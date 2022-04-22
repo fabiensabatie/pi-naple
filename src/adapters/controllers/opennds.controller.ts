@@ -8,6 +8,6 @@ export const OpenNDSController = (request: Request, response: Response) => {
     console.log("OpenNDSController", request.query)
     if (isAuthenticatedRequest(request.query.redir as string, request.query.tok as string))
         return response.redirect(getRedirectUrl(request.query.redir as string, request.query.tok as string))
-    return response.send(getCaptivePortalContent({ fasQuery: request.query.fas as string }));
+    return response.send(getCaptivePortalContent({ fasQuery: request.query.fas as string, iv: request.query.iv as string }));
     
 };
