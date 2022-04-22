@@ -5,8 +5,8 @@ interface Props { fasQuery : string, iv: string };
 
 const decrypt = (textBase64, keyBase64, ivBase64) => {
     const algorithm = 'aes-256-cbc';
-    const ivBuffer = Buffer.from(ivBase64, 'base64');
-    const keyBuffer = Buffer.from(keyBase64, 'base64');
+    const ivBuffer = Buffer.from(ivBase64, 'utf8');
+    const keyBuffer = Buffer.from(keyBase64, 'utf8');
 
     const decipher = crypto.createDecipheriv(algorithm, keyBuffer, ivBuffer);
     decipher.setAutoPadding(false);
@@ -19,12 +19,11 @@ const decrypt = (textBase64, keyBase64, ivBase64) => {
 export const getCaptivePortalContent =  ({ fasQuery, iv }: Props) => {
 
     const key = 'abcdef';
-    const ivBuffer = Buffer.from(iv, 'base64').slice(0, 16);
 
     // the message comes from the bytes AFTER the IV - this is what you should decrypt
     const message = Buffer.from(fasQuery, 'base64').slice(16);
 
-    const result = decrypt(message, key, ivBuffer);
+    const result = decrypt(message, key, iv);
 
     const fas = result;
     const hid = fas.match(/hid=\w+/g).pop().replace("hid=", "")
