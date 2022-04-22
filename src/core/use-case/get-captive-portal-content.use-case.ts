@@ -3,29 +3,24 @@ import crypto from 'crypto';
 interface Dependencies {}
 interface Props { fasQuery : string, iv: string };
 
-const decrypt = (textBase64, keyBase64, ivBase64) => {
-    const algorithm = 'aes-256-cbc';
-    const ivBuffer = Buffer.from(ivBase64, 'utf8');
-    const keyBuffer = Buffer.from(keyBase64, 'utf8');
-
-    const decipher = crypto.createDecipheriv(algorithm, keyBuffer, ivBuffer);
-    decipher.setAutoPadding(false);
-
-    let decrypted = decipher.update(textBase64, 'base64', 'utf8');
-    decrypted += decipher.final('utf8');
-    return decrypted;
-}
 
 export const getCaptivePortalContent =  ({ fasQuery, iv }: Props) => {
 
-    const key = 'abcdef';
+    const decrypter = crypto.createDecipheriv("aes-256-cbc", "abcdef", iv);
 
-    // the message comes from the bytes AFTER the IV - this is what you should decrypt
-    const message = Buffer.from(fasQuery, 'base64').slice(16);
+    // decrypt the message
+    // set the input encoding
+    // and the output encoding
+    let decryptedMsg = decrypter.update(fasQuery, "hex", "utf8");
+    
+    // stop the decryption using
+    // the final method and set
+    // output encoding to utf8
+    decryptedMsg += decrypter.final("utf8");
+    
+    console.log("Decrypted message: " + decryptedMsg);
 
-    const result = decrypt(message, key, iv);
-
-    const fas = result;
+    const fas = decryptedMsg;
     const hid = fas.match(/hid=\w+/g).pop().replace("hid=", "")
     const gateway = fas.match(/gatewayaddress=([\w\.:])+/g).pop().replace("gatewayaddress=", "")
     const gatewayurl = fas.match(/gatewayurl=([\w\.:%])+/g).pop().replace("gatewayurl=", "")
