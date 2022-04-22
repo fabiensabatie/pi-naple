@@ -21,7 +21,7 @@ export const getCaptivePortalContent =  ({ fasQuery, iv }: Props) => {
     const hid = fas.match(/hid=\w+/g).pop().replace("hid=", "")
     const gateway = fas.match(/gatewayaddress=([\w\.:])+/g).pop().replace("gatewayaddress=", "")
     const gatewayurl = fas.match(/gatewayurl=([\w\.:%])+/g).pop().replace("gatewayurl=", "")
-    const hash = 'sha256-' + crypto.createHash('sha256').update(hid + "bf3c199c2470cb477d907b1e0917c17b").digest('base64');	
+    const hash = crypto.createHash('sha256').update(hid + "bf3c199c2470cb477d907b1e0917c17b").digest('hex');	
     console.log(fas, hid, gateway, gatewayurl, hash)
     return `
         <form action="http://${gateway}/opennds_auth/" method="get">
