@@ -13,7 +13,7 @@ const ENC_KEY = "bf3c199c2470cb477d907b1e0917c17b"; // set random encryption key
 export const getCaptivePortalContent =  ({ fasQuery, iv }: Props) => {
       var decrypt = ((encrypted) => {
         let decipher = crypto.createDecipheriv('aes-256-cbc', ENC_KEY, iv);
-        let decrypted = decipher.update(encrypted, 'base64', 'utf8');
+        let decrypted = decipher.update(encrypted, 'utf8', 'utf8');
         return (decrypted + decipher.final('utf8'));
       });
     const fas = decrypt(fasQuery);
