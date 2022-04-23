@@ -2,9 +2,8 @@
 
 import express from 'express';
 import { OpenNDSController } from './adapters/controllers/opennds.controller';
-import https from "https-localhost";
 
-const app = https();
+const app = express();
 const port = 8010;
 
 app.use((req, res, next) => {
