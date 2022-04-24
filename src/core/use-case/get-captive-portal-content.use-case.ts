@@ -5,5 +5,6 @@ interface Props { fasQuery : string, iv: string };
 export const getCaptivePortalContent =  async ({ fasQuery, iv }: Props) => {
     const opennds = OpenNds.create({ fasQuery, iv });
     await opennds.upsertAuthCommunicationChannelDir();
+    console.log(opennds)
     return opennds.form;
 }
