@@ -54,6 +54,7 @@ export class OpenNds {
         const dir = `${AUTH_CHANNEL_DIR}${this.gatewaynameHash}`;
         try {
             if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+            console.log(`${dir}/${this.hidHash}`, `${this.hidHash} 1 0 0 0 0 \n`)
             await this.upsertAuthCommunicationChannelFile(`${dir}/${this.hidHash}`, `${this.hidHash} 1 0 0 0 0 \n`);
         }
         catch (error) {
