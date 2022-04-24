@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ENC_KEY = "bf3c199c2470cb477d907b1e0917c17b";
-const AUTH_CHANNEL_DIR = "/run/";
+const AUTH_CHANNEL_DIR = "./public/";
 
 
 export class OpenNds {
