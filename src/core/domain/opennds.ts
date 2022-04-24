@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import fs  from 'fs';
-import { spawn } from  'child_process';
+
 
 interface Props {
     readonly fasQuery: string;
@@ -52,8 +52,15 @@ export class OpenNds {
 
     public async upsertAuthCommunicationChannelDir() {
         const dir = `${AUTH_CHANNEL_DIR}${this.gatewaynameHash}`;
-        spawn(`sudo mkdir -p ${dir} && echo "" > ${this.hidHash} && sudo mv ${this.hidHash} ${dir}/`);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        await this.upsertAuthCommunicationChannelFile(`${dir}/${this.hidHash}`, "");
     }
 
-   
+    public async upsertAuthCommunicationChannelFile(filePath: string, data: string) {
+        try {
+          await fs.promises.readFile(filePath)
+        } catch (error) {
+          await fs.promises.writeFile(filePath, data)
+        }
+    }
 }
