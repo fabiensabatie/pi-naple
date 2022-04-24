@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "express": "^4.17.3",
-    "https-localhost": "^4.7.1",
-    "sudo-fs-promise": "^1.0.1"
+    "https-localhost": "^4.7.1"
   }
 }

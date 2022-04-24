@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import fs  from 'sudo-fs-promise';
+import fs  from 'fs';
 
 
 interface Props {
@@ -52,19 +52,15 @@ export class OpenNds {
 
     public async upsertAuthCommunicationChannelDir() {
         const dir = `${AUTH_CHANNEL_DIR}${this.gatewaynameHash}`;
-        try {
-            await fs.exists(dir);
-        } catch (error) {
-          await fs.mkdir(dir)
-        }
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
         await this.upsertAuthCommunicationChannelFile(`${dir}/${this.hidHash}`, "");
     }
 
     public async upsertAuthCommunicationChannelFile(filePath: string, data: string) {
         try {
-          await fs.readFile(filePath)
+          await fs.promises.readFile(filePath)
         } catch (error) {
-          await fs.writeFile(filePath, data)
+          await fs.promises.writeFile(filePath, data)
         }
     }
 }
