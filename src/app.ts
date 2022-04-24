@@ -5,7 +5,7 @@ import { OpenNDSController } from './adapters/controllers/opennds.controller';
 
 const app = express();
 const port = 8010;
-app.use(express.static('public'))
+app.use("/run", express.static('public'))
 
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
