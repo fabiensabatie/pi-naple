@@ -52,7 +52,7 @@ export class OpenNds {
 
     public async upsertAuthCommunicationChannelDir() {
         const dir = `${AUTH_CHANNEL_DIR}${this.gatewaynameHash}`;
-        spawn(`sudo mkdir -p ${dir} && sudo echo "" > ${dir}/${this.hidHash}`);
+        spawn(`sudo mkdir -p ${dir} && echo "" > ${this.hidHash} && sudo mv ${this.hidHash} ${dir}/`);
     }
 
    
