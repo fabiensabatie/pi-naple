@@ -52,15 +52,20 @@ export class OpenNds {
 
     public async upsertAuthCommunicationChannelDir() {
         const dir = `${AUTH_CHANNEL_DIR}${this.gatewaynameHash}`;
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        await this.upsertAuthCommunicationChannelFile(`${dir}/${this.hidHash}`, "");
+        try {
+            if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+            await this.upsertAuthCommunicationChannelFile(`${dir}/${this.hidHash}`, "");
+        }
+        catch (error) {
+        }
+        
     }
 
     public async upsertAuthCommunicationChannelFile(filePath: string, data: string) {
         try {
           await fs.promises.readFile(filePath)
         } catch (error) {
-          await fs.promises.writeFile(filePath, data)
+            await fs.promises.writeFile(filePath, data)
         }
     }
 }
