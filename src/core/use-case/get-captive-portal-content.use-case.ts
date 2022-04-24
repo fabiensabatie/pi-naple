@@ -26,6 +26,7 @@ export const getCaptivePortalContent =  ({ fasQuery, iv }: Props) => {
     return `
         <form action="http://${gateway}/opennds_auth/" method="get">
                 <input type="hidden" name="tok" value="${hash}">
+                <input type="hidden" name="sessionlength" value="1">
                 <input type="hidden" name="redir" value="https://google.fr"><br>
                 <input type="submit" value="Continue" >
         </form>
