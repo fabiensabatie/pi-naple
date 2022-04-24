@@ -14,7 +14,10 @@ app.use((req, res, next) => {
 	next();
 });
 app.get('/', OpenNDSController);
-app.post('/', console.log);
+app.post('/', (req, res, next) => {
+	console.log("POST", req.params)
+	next()
+});
 
 app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);
